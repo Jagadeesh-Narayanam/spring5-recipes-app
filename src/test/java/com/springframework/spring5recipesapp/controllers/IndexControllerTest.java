@@ -1,21 +1,23 @@
 package com.springframework.spring5recipesapp.controllers;
 
-import com.springframework.spring5recipesapp.services.RecipeService;
 import com.springframework.spring5recipesapp.domain.Recipe;
+import com.springframework.spring5recipesapp.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Handler;
 
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anySet;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
@@ -31,6 +33,12 @@ public class IndexControllerTest {
         MockitoAnnotations.initMocks(this);
         indexController = new IndexController(recipeService);
 
+    }
+    @Test
+    public void testMockMVC() throws Exception{
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(indexController).build();
+        mockMvc.perform(MockMvcRequestBuilders.get("/"))
+                .andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("index"));
     }
 
     @Test
